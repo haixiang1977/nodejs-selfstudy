@@ -31,7 +31,7 @@ function assignGuestName(socket, guestNumber, nickNames, namesUsed) {
     success: true,
     name: name
   });
-  nameUsed.push(name);
+  namesUsed.push(name);
   return guestNumber + 1;
 };
 
