@@ -41,6 +41,9 @@ function serveStatic(response, cache, absPath) {
 
 var server = http.createServer(function(request, response) {
   var filePath = false;
+
+  console.log("request url", request.url);
+
   if (request.url == '/') {
     filePath = 'public/index.html';
   } else {

@@ -8,7 +8,9 @@ var currentRoom = [];
 exports.listen = function(server) {
   io = socketio.listen(server);
   io.set('log level', 1);
+  console.log("Chat Server start to listen");
   io.sockets.on('connection', function(socket) {
+    console.log("Chat Server connection accepted");
     guestNumber = assignGuestName(socket, guestNumber, nickNames, namesUsed);
     joinRoom(socket, 'Lobby');
 
@@ -25,8 +27,10 @@ exports.listen = function(server) {
 };
 
 function assignGuestName(socket, guestNumber, nickNames, namesUsed) {
+  console.log("assignGuestName called");
   var name = 'Guest' + guestNumber;
   nickNames[socket.id] = name;
+  console.log("emit nameResult called name ", name);
   socket.emit('nameResult', {
     success: true,
     name: name
@@ -36,6 +40,7 @@ function assignGuestName(socket, guestNumber, nickNames, namesUsed) {
 };
 
 function joinRoom(socket, room) {
+  console.log("joinRoom called");
   socket.join(room);
   currentRoom[socket.id] = room;
   socket.emit('joinResult', {room: room});
@@ -61,6 +66,7 @@ function joinRoom(socket, room) {
 }
 
 function handleNameChangeAttempts(socket, nickNames, namesUsed) {
+  console.log("handleNameChangeAttempts called");
   socket.on('nameAttempt', function(name){
     if (name.indexOf('Guest') == 0) {
       socket.emit('nameResult', {
@@ -92,6 +98,7 @@ function handleNameChangeAttempts(socket, nickNames, namesUsed) {
 }
 
 function handleMessageBroadcasting(socket) {
+  console.log("handleMessageBroadcasting called");
   socket.on('message', function(message) {
     socket.broadcast.to(message.room).emit('message', {
       text: nickNames[socket.id] + ': ' + message.txt
@@ -100,6 +107,7 @@ function handleMessageBroadcasting(socket) {
 };
 
 function handleRoomJoining(socket) {
+  console.log("handleRoomJoining called");
   socket.on('join', function(room) {
     socket.leave(currentRoom[socket.id]);
     joinRoom(socket,room.newRoom);
@@ -107,6 +115,7 @@ function handleRoomJoining(socket) {
 };
 
 function handleClientDisconnection(socket) {
+  console.log("handleClientDisconnection called");
   socket.on('disconnect', function(){
     var nameIndex = namesUsed.indexOf(nickNames[socket.id]);
     delete namesUsed[nameIndex];

@@ -3,6 +3,7 @@ function divEscapedContentElement(message) {
 }
 
 function divSystemContentElement(message) {
+  console.log("divSystemContentElement called message ", message);
   return $('<div></div>').html('<i>' + message + '</i>');
 }
 
@@ -10,7 +11,9 @@ function processUserInput(chatApp, socket) {
   var message = $('#send-message').val();
   var systemMessage;
 
-  if (message.chatAt(0) == '/') {
+  console.log("processUserInput message ", message);
+
+  if (message.charAt(0) == '/') {
     systemMessage = chatApp.processCommand(message);
     if (systemMessage) {
       $('#messages').append(divSystemContentElement(systemMessage));
@@ -26,6 +29,7 @@ function processUserInput(chatApp, socket) {
 
 var socket = io.connect();
 $(document).ready(function() {
+  console.log("debug document ready called");
   var chatApp = new Chat(socket);
 
   socket.on('nameResult', function(result) {
@@ -36,6 +40,7 @@ $(document).ready(function() {
     } else {
       message = result.message;
     }
+    console.log("nameResult callback called message ", message);
     $('#messages').append(divSystemContentElement(message));
   });
 
@@ -71,7 +76,8 @@ $(document).ready(function() {
 
   $('#send-message').focus();
 
-  $('send-form').submit(function() {
+  $('#send-form').submit(function() {
+    console.log("send-form submit function called");
     processUserInput(chatApp, socket);
     return false;
   });
