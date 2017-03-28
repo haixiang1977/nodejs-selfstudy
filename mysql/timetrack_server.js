@@ -46,12 +46,12 @@ var server = http.createServer(function (req, res) {
         case '/':
           work.show(db, res);
           break;
-        case 'archieved':
-          work.showArchieved(db, res);
+        case 'archived':
+          work.showArchived(db, res);
+          break;
         }
+        break;
       }
-      break;
-  }
 });
 
 // connect database
@@ -66,6 +66,7 @@ db.query (
   function(err) {
     if (err) throw err;
     console.log('HTTP Server started ...');
-    server.listen(3000, '127.0.0.1');
+    //server.listen(3000, '127.0.0.1');
+    server.listen(3000, '192.168.31.158');
   }
 );

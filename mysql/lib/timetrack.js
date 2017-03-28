@@ -24,7 +24,7 @@ exports.parseReceivedData = function(req, cb) {
 exports.actionForm = function (id, path, label) {
   var html = '<form method="POST" action="' + path + '">' +
       '<input type="hidden" name="id" value="' + id + '">' +
-      '<input type="submit" value="' + lable + '" />' +
+      '<input type="submit" value="' + label + '" />' +
       '</form>';
   return html;
 };
@@ -73,7 +73,7 @@ exports.archive = function(db, req, res) {
 exports.show = function(db, res, showArchived) {
   var query = "SELECT * FROM work " +
     "WHERE archived=? " +
-    "ORDER BY data DESC";
+    "ORDER BY date DESC";
   var archiveValue = (showArchived) ? 1 : 0;
   db.query(
     query,
@@ -82,7 +82,7 @@ exports.show = function(db, res, showArchived) {
       if (err) throw err;
       html = (showArchived)
         ? ''
-        : '<a href="archieved">Archived Work</a><br/>';
+        : '<a href="archived">Archived Work</a><br/>';
       html += exports.workHitlistHtml(rows);
       html += exports.workFormHtml();
       exports.sendHtml(res, html);
