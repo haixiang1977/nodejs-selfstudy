@@ -121,3 +121,11 @@ exports.workFormHtml = function() {
     '</form>';
   return html;
 }
+
+exports.workArchiveForm = function(id) {
+  return exports.actionForm(id, '/archive', 'Archive');
+};
+
+exports.workDeleteForm = function(id) {
+  return exports.actionForm(id, '/delete', 'Delete');
+};
