@@ -33,8 +33,10 @@ var server = http.createServer(function (req, res) {
         case '/':
           work.add(db, req, res);
           break;
-        case '/archieve':
-          work.archieve(db, req, res);
+        case '/archive':
+          //console.log("work archiving");
+          work.archive(db, req, res);
+          //console.log("work archived");
           break;
         case '/delete':
           work.delete(db, req, res);
@@ -46,8 +48,10 @@ var server = http.createServer(function (req, res) {
         case '/':
           work.show(db, res);
           break;
-        case 'archived':
+        case '/archived':
+          //console.log("work showing archived");
           work.showArchived(db, res);
+          //console.log("work shown archived");
           break;
         }
         break;
